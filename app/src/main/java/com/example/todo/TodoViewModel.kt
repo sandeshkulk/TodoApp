@@ -1,28 +1,24 @@
 package com.example.todo
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.time.Instant
+import java.util.Date
 
 class TodoViewModel:ViewModel() {
-    private var _todoList = MutableLiveData<List<Todo>>()
-    val todoList: LiveData<List<Todo>> = _todoList
-
-    fun getAllTodo() {
-       // _todoList.value = TodoManager.getAllTodo()
-        //if needed the newest on the first
-        _todoList.value = TodoManager.getAllTodo().reversed()
-    }
-
+    val todoDao=MainApplication.todoDatabase.getTodoDao()
+    val todoList: LiveData<List<Todo>> = todoDao.getAllTodo()
     fun addTodo(title:String){
-        if (title.isNotBlank()){
-            TodoManager.addTodo(title)
-            getAllTodo()
+        viewModelScope.launch (Dispatchers.IO){
+            todoDao.addTodo(Todo(title=title, sessionId = Date.from(Instant.now())))
         }
     }
-
     fun deleteTodo(id: Int){
-        TodoManager.deleteTodo(id)
-        getAllTodo()
+        viewModelScope.launch (Dispatchers.IO) {
+            todoDao.deleteTodo(id)
+        }
     }
 }
