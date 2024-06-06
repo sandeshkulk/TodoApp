@@ -18,11 +18,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val todoViewModel=ViewModelProvider(this)[TodoViewModel::class.java]
-        todoViewModel.getAllTodo()
         setContent {
             TodoTheme {
-                TodoListPage(todoViewModel)
+                TodoListPage(TodoViewModel())
             }
         }
     }

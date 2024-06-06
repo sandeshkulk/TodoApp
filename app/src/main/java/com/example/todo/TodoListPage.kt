@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -91,11 +92,13 @@ fun TodoItem(item:Todo, onDelete:()->Unit){
         {
             Text(text=SimpleDateFormat("HH:mm:aa, dd/mm/yyyy", Locale.ENGLISH).format(item.sessionId),
                 fontSize = 10.sp,
-                color= Color.LightGray)
+                color= Color.White,
+                fontWeight = FontWeight.SemiBold)
           //  Text(text = item.sessionId.toString())
             Text(text = item.title,
                 fontSize = 20.sp,
-                color = Color.Black)
+                color = Color.Black,
+                fontWeight = FontWeight.Bold)
         }
         IconButton(onClick = onDelete) {
             Icon(painter = painterResource(id = R.drawable.baseline_delete_24),
